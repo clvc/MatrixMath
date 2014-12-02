@@ -14,4 +14,12 @@ using namespace std;
 int main() {
     cout << "Hello world!" << endl;
     Matrix m(2,2);
+    m.print(cout);
+    Matrix n = m;
+    n.print(cout);
+    Matrix o(3,3);
+    o.print(cout);
+    // LIES
+    o = m;
+    o.print(cout);
 }

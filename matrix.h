@@ -1,13 +1,21 @@
 // from Facebook (unmodified)
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
 class Matrix{
 public:
     Matrix();
     Matrix(int,int);
+    Matrix(const Matrix&);
     double det();
-    Matrix operator+(Matrix);
-    Matrix operator-(Matrix);
+    Matrix operator+(const Matrix&) const;
+    Matrix operator-(const Matrix&) const;
     Matrix operator*(int);
-    Matrix operator*(Matrix);
+    Matrix operator*(const Matrix&) const;
+    Matrix &operator=(const Matrix&);
     Matrix cof();
     Matrix inv();
     Matrix transpose();
@@ -22,10 +30,13 @@ public:
     Matrix eigVectors(); //set of vectors
     Matrix basisForNullSpace(); //set of vectors
     Matrix basisForSLESolutionSpace(Matrix); //set of vectors
-    void print();
+    bool print(std::ostream&);
     ~Matrix();
 private:
     int rows;
     int cols;
     double **elements;
+    void copy(const Matrix&);
+    void deleteAll();
 };
+#endif
