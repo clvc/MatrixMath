@@ -16,21 +16,24 @@ public:
     Matrix operator*(int);
     Matrix operator*(const Matrix&) const;
     Matrix &operator=(const Matrix&);
-    Matrix cof();
-    Matrix inv();
     Matrix transpose();
-    bool diagonalizable();
-    double getElement();
-    int getRows();
-    int getCols();
+    double getElement(int, int);
+    void setElement(int, int, double);
+    int getRows() const;
+    int getCols() const;
+    bool print(std::ostream&);
+    //To do:
     int* eigVals();
+    Matrix inv();
+    Matrix rref();
+    Matrix cof();
+    bool diagonalizable();
     Matrix orthoDiagonalize();
     Matrix orthoNormalize();
     Matrix eigVector(int);
     Matrix eigVectors(); //set of vectors
     Matrix basisForNullSpace(); //set of vectors
     Matrix basisForSLESolutionSpace(Matrix); //set of vectors
-    bool print(std::ostream&);
     ~Matrix();
 private:
     int rows;
