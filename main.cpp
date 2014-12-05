@@ -12,14 +12,40 @@ using namespace std;
 // I realize this might not make sense for a lot of people
 // so feel free to change it
 int main() {
-    cout << "Hello world!" << endl;
+    
     Matrix m(2,2);
+       
     m.print(cout);
     Matrix n = m;
     n.print(cout);
+        
     Matrix o(3,3);
     o.print(cout);
-    // LIES
-    o = m;
+            
+    for(int i=0; i<o.getRows(); i++)
+        for(int j=0; j<o.getCols(); j++)
+            o.setElement(i, j, -i+j);
     o.print(cout);
+        
+    Matrix p(3,3);
+    for(int i=0; i<p.getRows(); i++)
+        for(int j=0; j<p.getCols(); j++)
+            p.setElement(i,j, (i+1)+(j+1)/10.0);
+    p.print(cout);
+    
+    Matrix q(3,3);
+    q = (p+o);  //Theres a super weird error in the addition function that's worth checking out
+    q.print(cout);
+    q.print(cout);
+    q = o*3;
+    q.print(cout);
+    q = o-p;    //but somehow the nearly identical subraction function is fine
+    q.print(cout);
+    q = p*o;
+    q.print(cout);
+    
+    q.transpose().print(cout);
+    
+    cout << o.det() << endl;
+    
 }

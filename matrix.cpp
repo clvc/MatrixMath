@@ -75,4 +75,124 @@ bool Matrix::print(ostream &out) {
     return success;
 }
 
+
+void Matrix::setElement(int row, int col, double element) {
+    elements[row][col] = element;
+    cerr << "SET ELEMENT" << endl;
+}
+
+int Matrix::getRows() const{
+    return rows;
+}
+
+int Matrix::getCols() const{
+    return cols;
+}
+
+Matrix Matrix::operator+(const Matrix& that) const{
+    
+    if((*this).rows==that.rows&&(*this).cols==that.cols) {
+        Matrix m(that.rows,that.cols);
+        for(int i=0; i<that.rows; i++)
+            for(int j=0; j<that.cols; j++)
+                m.elements[i][j] = (*this).elements[i][j] + that.elements[i][j];
+        cerr << "ADDITION" << endl;
+        return m;
+    }
+    else {
+        cerr << "ADDITION ERROR" << endl;
+        return Matrix(0,0);
+    }
+    
+}
+
+Matrix Matrix::operator-(const Matrix& that) const{
+    
+    if((*this).rows==that.rows&&(*this).cols==that.cols) {
+        Matrix m(that.rows,that.cols);
+        for(int i=0; i<that.rows; i++)
+            for(int j=0; j<that.cols; j++)
+                m.elements[i][j] = (*this).elements[i][j] - that.elements[i][j];
+        cerr << "SUBTRACTION" << endl;
+        return m;
+    }
+    else {
+        cerr << "SUBTRACTION ERROR" << endl;
+        return Matrix(0,0);
+    }
+    
+}
+
+Matrix Matrix::operator*(const Matrix& that) const{
+    
+    if((*this).cols==that.rows) {
+        Matrix m((*this).rows,that.cols);
+        for(int i=0; i<(*this).rows; i++)
+            for(int j=0; j<that.cols; j++)
+                for(int k=0; k<(*this).cols; k++)
+                    m.elements[i][j] += (*this).elements[i][k] * that.elements[k][j];
+        cerr << "MULTIPLICATION" << endl;
+        return m;
+    }
+    else {
+        cerr << "MULTIPLICATION ERROR" << endl;
+        return Matrix(0,0);
+    }
+    
+}
+
+Matrix Matrix::operator*(int a) {
+    
+    Matrix m = *this;
+    for(int i=0; i<m.rows; i++)
+        for(int j=0; j<m.cols; j++)
+            m.elements[i][j] *= a;
+    cerr << "SCALAR MULTIPLICATION" << endl;
+    return m;
+    
+}
+
+Matrix Matrix::transpose() {
+    Matrix m(cols, rows);
+    for(int i=0; i<m.rows; i++)
+        for(int j=0; j<m.cols; j++)
+            m.elements[i][j] = elements[j][i];
+    return m;
+    
+}
+
+double Matrix::det() {    //MOST DISGUSTING THING EVER
+    if(rows!=cols)
+        cerr << "DETERMINANT ERROR" << endl;
+    else if(rows==1)
+        return elements[0][0];
+    else if(rows==2)
+        return  elements[0][1]*elements[1][0] - elements[0][0]*elements[1][1];
+    else{
+        
+        double sum = 0;
+        
+        for(int a=0; a<(*this).rows; a++){
+            Matrix m(rows-1,rows-1);
+            int counter = 0;
+            for(int i=0; i<m.rows; i++){
+                for(int j=0; j<m.cols; j++){
+                    if(j==a)
+                        counter = 1;
+                    m.elements[i][j] = (*this).elements[i+1][j+counter];
+                }
+            }
+            if(a%2==0)
+                sum += (*this).elements[0][a]*m.det();
+            else
+                sum -= (*this).elements[0][a]*m.det();
+        }
+        return sum;
+    }
+}
+
+double Matrix::getElement(int r, int c){
+    return elements[r][c];
+}
+
 // continue on
