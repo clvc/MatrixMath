@@ -195,4 +195,43 @@ double Matrix::getElement(int r, int c){
     return elements[r][c];
 }
 
+Matrix Matrix::cof() {
+    
+    if(rows==cols){
+        Matrix m(rows,cols);
+        Matrix deter(rows-1,cols-1);
+    
+        for (int i=0; i < m.rows; i = i+1) {
+            for (int j=0; j < m.cols; j = j+1) {
+                
+                int inc_x = 0, inc_y = 0;
+                bool check_x = false, check_y = false;
+                for (int x=0; x<rows-1; x++) {
+                    for (int y=0; y<cols-1; y++) {
+                        if (!check_x && x>=i) {
+                            inc_x = 1;
+                            check_x = true;
+                        }
+                        if (!check_y && y>=j) {
+                            inc_y = 1;
+                            check_y = true;
+                        }
+                        deter.elements[x][y] = elements[x+inc_x][y+inc_y];
+                    }
+                }
+    
+                if((i+j)%2==0)
+                    m.elements[i][j] = deter.det();
+                else
+                    m.elements[i][j] = 0-deter.det();
+            }
+        }
+        cerr << "COFACTOR" << endl;
+        return m;
+    }
+    else {
+        cerr << "COFACTOR ERROR" << endl;
+        return Matrix(rows,cols);
+    }
+}
 // continue on
