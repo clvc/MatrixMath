@@ -42,4 +42,10 @@ private:
     void copy(const Matrix&);
     void deleteAll();
 };
+
+Matrix cofactor(Matrix);
+Matrix inv(Matrix);
+Matrix rref(Matrix);
+Matrix cof(Matrix);
+
 #endif
