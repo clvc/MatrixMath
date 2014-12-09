@@ -22,12 +22,12 @@ public:
     int getRows() const;
     int getCols() const;
     bool print(std::ostream&);
+    Matrix cof();
     void pivot(int&,int);
     Matrix rref();
     //To do:
     int* eigVals();
     Matrix inv();
-    Matrix cof();
     bool diagonalizable();
     Matrix orthoDiagonalize();
     Matrix orthoNormalize();
