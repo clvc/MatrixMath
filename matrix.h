@@ -22,11 +22,12 @@ public:
     int getRows() const;
     int getCols() const;
     bool print(std::ostream&);
-    //To do:
-    int* eigVals();
     Matrix inv();
     Matrix rref();
+    void pivot(int&,int);
     Matrix cof();
+    //To do:
+    int* eigVals();
     bool diagonalizable();
     Matrix orthoDiagonalize();
     Matrix orthoNormalize();
@@ -42,4 +43,9 @@ private:
     void copy(const Matrix&);
     void deleteAll();
 };
+
+//Matrix inv(Matrix);
+//Matrix rref(Matrix);
+//Matrix cof(Matrix);
+
 #endif
