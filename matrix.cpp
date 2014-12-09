@@ -231,7 +231,33 @@ Matrix Matrix::cof() {
     }
     else {
         cerr << "COFACTOR ERROR" << endl;
-        return Matrix(rows,cols);
+        return Matrix(0,0);
     }
 }
+
+Matrix Matrix::rref(){
+    Matrix m = (*this);
+    int column = 0;
+    for (int counter=0; counter<cols; i++){
+        
+        while (elements[column][counter] != 0) {
+            for (int j=rows-1; j>=counter; j--) {
+                elements[i][j] /= elements[i][counter];
+            }
+        }
+        else {
+            
+        }
+        
+    }
+    
+}
+
+void Matrix::pivot(int pivotRow, int pivotCol) {
+    for (int i=pivotRow; i<rows; i++) {
+        
+    }
+}
+
+
 // continue on
