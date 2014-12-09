@@ -237,25 +237,45 @@ Matrix Matrix::cof() {
 
 Matrix Matrix::rref(){
     Matrix m = (*this);
-    int column = 0;
-    for (int counter=0; counter<cols; i++){
-        
-        while (elements[column][counter] != 0) {
-            for (int j=rows-1; j>=counter; j--) {
-                elements[i][j] /= elements[i][counter];
-            }
-        }
-        else {
-            
-        }
-        
+    int pivotCol = 0;
+    int pivotRow = 0;
+    
+    while (pivotCol <= cols){
+        m.pivot(pivotRow,pivotCol);
+        pivotCol++;
     }
     
+    return m;
 }
 
-void Matrix::pivot(int pivotRow, int pivotCol) {
+void Matrix::pivot(int &pivotRow, int pivotCol) {
+    int firstNonZero = -1;
     for (int i=pivotRow; i<rows; i++) {
-        
+        if (elements[i][pivotCol] != 0)
+            firstNonZero = i;
+    }
+    if (firstNonZero == -1)
+        return;
+    else {
+        if (firstNonZero != pivotRow) {
+            for (int j=pivotCol; j<cols; j++) {
+                double temp = elements[firstNonZero][j];
+                elements[firstNonZero][j] = elements[pivotRow][j];
+                elements[pivotRow][j] = temp;
+            }
+        }
+        for (int j = cols-1; j>=pivotCol; j--) {
+            elements[pivotRow][j] /= elements[pivotRow][pivotCol];
+        }
+        if (pivotRow<rows-1) {
+            for (int k = pivotRow+1; ; k<rows; k++) {
+                for (int j = cols-1; j>=pivotCol; j--) {
+                    elements[k][j] = elements[k][j] - elements[k][pivotCol]*elements[pivotRow][j];
+                }
+            }
+        }
+        pivotRow++;
+        return;
     }
 }
 
