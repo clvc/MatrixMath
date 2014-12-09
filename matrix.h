@@ -13,7 +13,7 @@ public:
     double det();
     Matrix operator+(const Matrix&) const;
     Matrix operator-(const Matrix&) const;
-    Matrix operator*(int);
+    Matrix operator*(double);
     Matrix operator*(const Matrix&) const;
     Matrix &operator=(const Matrix&);
     Matrix transpose();
