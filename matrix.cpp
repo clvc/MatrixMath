@@ -284,6 +284,6 @@ void Matrix::pivot(int &pivotRow, int pivotCol) {
 
 Matrix Matrix::inv() {
     Matrix m = (*this);
-    return (1.0/m.det())*m.cof().transpose();
+    return m.cof().transpose()*(1.0/m.det());
 }
 // continue on
