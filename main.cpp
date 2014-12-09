@@ -40,7 +40,7 @@ int main() {
     
     cout << "p + o" << endl;
     Matrix q(3,3);
-    q = (p+o);  //Theres a super weird error in the addition function that's worth checking out
+    q = (p+o);
     q.print(cout);
     cout << "3o" << endl;
     q = o*3;
@@ -57,5 +57,8 @@ int main() {
     
     cout << "det(o)" << endl;
     cout << o.det() << endl;
+    
+    cout << "RREF(o)" << endl;
+    o.rref(o).print(cout);
     
 }
