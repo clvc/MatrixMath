@@ -264,13 +264,20 @@ void Matrix::pivot(int &pivotRow, int pivotCol) {
                 elements[pivotRow][j] = temp;
             }
         }
-        for (int j = cols-1; j>=pivotCol; j--) {
+        for (int j = cols-1; j >= pivotCol; j--) {
             elements[pivotRow][j] /= elements[pivotRow][pivotCol];
         }
         if (pivotRow<rows-1) {
-            for (int k = pivotRow+1; ; k<rows; k++) {
-                for (int j = cols-1; j>=pivotCol; j--) {
+            for (int k = pivotRow+1; k < rows; k++) {
+                for (int j = cols-1; j >= pivotCol; j--) {
                     elements[k][j] = elements[k][j] - elements[k][pivotCol]*elements[pivotRow][j];
+                }
+            }
+        }
+        if (pivotRow > 0) {
+            for (int k = pivotRow-1; k >= 0; k--) {
+                for (int j = cols-1; j >= pivotCol; j--) {
+                     elements[k][j] = elements[k][j] - elements[k][pivotCol]*elements[pivotRow][j];
                 }
             }
         }
