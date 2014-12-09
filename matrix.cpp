@@ -141,7 +141,7 @@ Matrix Matrix::operator*(const Matrix& that) const{
     
 }
 
-Matrix Matrix::operator*(int a) {
+Matrix Matrix::operator*(double a) {
     
     Matrix m = *this;
     for(int i=0; i<m.rows; i++)
