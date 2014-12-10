@@ -59,6 +59,6 @@ int main() {
     cout << o.det() << endl;
     
     cout << "RREF(o)" << endl;
-    o.rref(o).print(cout);
+    o.rref().print(cout);
     
 }
