@@ -219,9 +219,9 @@ Matrix Matrix::cof() {
                 }
 
                 if((i+j)%2==0)
-                    m.elements[i][j] = deter.det();
+                    m.elements[i][j] = deter.quickDet();
                 else
-                    m.elements[i][j] = 0-deter.det();
+                    m.elements[i][j] = 0-deter.quickDet();
             }
         }
         cerr << "COFACTOR" << endl;
@@ -341,8 +341,10 @@ void Matrix::pivot(int &pivotRow, int pivotCol, double &detFactor) {
 }
 
 Matrix Matrix::inv() {
-    Matrix m = (*this);
-    return m.cof().transpose()*(1.0/m.det());
+    double det = quickDet();
+    if(det != 0)
+        return cof().transpose()*(1.0/det);
+    else return Matrix(0,0);
 }
 
 double Matrix::quickDet() {
@@ -350,5 +352,12 @@ double Matrix::quickDet() {
     Matrix m = (*this).rref(detFactor);
     return m.det()*detFactor;
 }
+
+bool Matrix::invertible() {
+    if(quickDet() == 0)
+        return false;
+    else return true;
+}
+
 
 // continue on
