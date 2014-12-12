@@ -376,6 +376,10 @@ bool Matrix::invertible() {
 }
 
 Matrix Matrix::basisForNullSpace() {
+    
+    if(invertible())
+        return Matrix(0,0);
+    
     Matrix m = rref();
     int rank = 0;
     int *freeVars;
