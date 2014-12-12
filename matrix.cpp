@@ -423,14 +423,25 @@ Matrix Matrix::basisForNullSpace() {
 
 void Matrix::build(istream& in){
     
-    for(int i=0; i<rows; i++) {
-        for(int j=0; j<cols; j++) {
-            in >> elements[i][j];
-            if(in == cin)
+    if(&in == &cin) {
+        for(int i=0; i<rows; i++) {
+            for(int j=0; j<cols; j++) {
+                cout << "Build your matrix: " << endl;
                 print(cout);
+                cout << "Row: " << i << "  Col: " << j << endl;
+                in >> elements[i][j];
+                cout<<endl;
+
+            }
         }
     }
-    
+    else {
+        for(int i=0; i<rows; i++) {
+              for(int j=0; j<cols; j++) {
+                   in >> elements[i][j];
+              }
+        }
+    }
 }
 
 
