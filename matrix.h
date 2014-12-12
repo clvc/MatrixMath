@@ -22,13 +22,16 @@ public:
     int getRows() const;
     int getCols() const;
     bool print(std::ostream&);
-    Matrix inv();
+    void build(std::istream&);
     Matrix rref();
+    Matrix rref(double&);
     void pivot(int&,int);
     void pivot(int&, int,double&);
-    Matrix rref(double&);
     double quickDet();
     Matrix cof();
+    Matrix inv();
+    bool invertible();
+    Matrix basisForNullSpace(); //set of vectors
     //To do:
     int* eigVals();
     bool diagonalizable();
@@ -36,7 +39,6 @@ public:
     Matrix orthoNormalize();
     Matrix eigVector(int);
     Matrix eigVectors(); //set of vectors
-    Matrix basisForNullSpace(); //set of vectors
     Matrix basisForSLESolutionSpace(Matrix); //set of vectors
     ~Matrix();
 private:
