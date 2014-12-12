@@ -25,6 +25,9 @@ public:
     Matrix inv();
     Matrix rref();
     void pivot(int&,int);
+    void pivot(int&, int,double&);
+    Matrix rref(double&);
+    double quickDet();
     Matrix cof();
     //To do:
     int* eigVals();
