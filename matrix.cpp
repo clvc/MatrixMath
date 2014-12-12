@@ -181,6 +181,7 @@ double Matrix::det() {    //MOST DISGUSTING THING EVER
                         counter = 1;
                     m.elements[i][j] = (*this).elements[i+1][j+counter];
                 }
+                counter = 0;
             }
             if(a%2==0)
                 sum += (*this).elements[0][a]*m.det();
@@ -283,9 +284,71 @@ void Matrix::pivot(int &pivotRow, int pivotCol) {
     }
 }
 
+Matrix Matrix::rref(double &detFactor){
+    Matrix m = (*this);
+    
+    int pivotCol = 0;
+    int pivotRow = 0;
+    
+    while (pivotCol < cols){
+        m.pivot(pivotRow,pivotCol,detFactor);
+        pivotCol++;
+    }
+    
+    return m;
+}
+
+void Matrix::pivot(int &pivotRow, int pivotCol, double &detFactor) {
+    int firstNonZero = -1;
+    for (int i=pivotRow; i<rows; i++) {
+        if (elements[i][pivotCol] != 0){
+            firstNonZero = i;
+            break;
+        }
+    }
+    if (firstNonZero == -1)
+        return;
+    else {
+        if (firstNonZero != pivotRow) { //Row Swap
+            detFactor *= -1;
+            for (int j=pivotCol; j<cols; j++) {    
+                double temp = elements[firstNonZero][j];
+                elements[firstNonZero][j] = elements[pivotRow][j];
+                elements[pivotRow][j] = temp;
+            }
+        }
+        detFactor *= elements[pivotRow][pivotCol];
+        for (int j = cols-1; j >= pivotCol; j--) {
+            elements[pivotRow][j] /= elements[pivotRow][pivotCol];
+        }
+        if (pivotRow<rows-1) {
+            for (int k = pivotRow+1; k < rows; k++) {
+                for (int j = cols-1; j >= pivotCol; j--) {
+                    elements[k][j] = elements[k][j] - elements[k][pivotCol]*elements[pivotRow][j];
+                }
+            }
+        }
+        if (pivotRow > 0) {
+            for (int k = pivotRow-1; k >= 0; k--) {
+                for (int j = cols-1; j >= pivotCol; j--) {
+                     elements[k][j] = elements[k][j] - elements[k][pivotCol]*elements[pivotRow][j];
+                }
+            }
+        }
+        pivotRow++;
+        return;
+    }
+}
+
 Matrix Matrix::inv() {
     Matrix m = (*this);
     return m.cof().transpose()*(1.0/m.det());
+}
+
+double Matrix::quickDet() {
+    double detFactor = 1;
+    Matrix m = (*this).rref(detFactor);
+    return m.det()*detFactor;
 }
 
 // continue on
