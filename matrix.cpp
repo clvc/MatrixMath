@@ -66,12 +66,26 @@ void Matrix::copy(const Matrix &that) {
 
 bool Matrix::print(ostream &out) {
     bool success = true;
+    int max = 0;
+    for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                int el = int(elements[r][c]), counter = 0;
+                if(el<0)
+                    counter++;
+                while(abs(el)>0) {
+                    el /= 10;
+                    counter++;
+                }
+                if(counter>max)
+                    max = counter;
+            }
+    }
     for (int r = 0; r < rows; r++) {
         for (int c = 0; c < cols; c++) {
-            success = success && (out << elements[r][c] << " ");
+            success = success && (out << fixed << setprecision(2) << setw(max+3) << elements[r][c] << " ");
         }
         out << endl;
-    }
+    } out << endl;
     return success;
 }
 
@@ -344,7 +358,8 @@ Matrix Matrix::inv() {
     double det = quickDet();
     if(det != 0)
         return cof().transpose()*(1.0/det);
-    else return Matrix(0,0);
+    else 
+        return Matrix(0,0);
 }
 
 double Matrix::quickDet() {
@@ -356,7 +371,62 @@ double Matrix::quickDet() {
 bool Matrix::invertible() {
     if(quickDet() == 0)
         return false;
-    else return true;
+    else 
+        return true;
+}
+
+Matrix Matrix::basisForNullSpace() {
+    Matrix m = rref();
+    int rank = 0;
+    int *freeVars;
+    freeVars = new int [m.cols];
+    
+    for(int i=0; i<m.cols; i++)
+        freeVars[i] = 1;
+    
+    for (int i = 0; i<m.rows; i++) {
+        for (int j=0; j<m.cols; j++) {
+            if (m.elements[i][j] != 0) {
+                rank++;
+                freeVars[j] = 0;
+                break;
+            }
+        }
+    }
+    
+    int counter = 0;
+    Matrix n(m.cols,m.cols-rank);
+    for (int i=0; i<m.cols; i++) {
+        if (freeVars[i]==1) {
+            int counter2 = 0;
+            for (int j=0; j<m.cols; j++) {
+                if (i==j){
+                    n.elements[j][counter] = 1;
+                }
+                else if (freeVars[j] == 1 || i<j) {
+                    n.elements[j][counter] = 0;
+                }
+                else {
+                    n.elements[j][counter] = -1*m.elements[counter2][i];
+                    counter2++;
+                }
+            }
+            counter++;
+        }
+    }
+    return n;
+}
+
+void Matrix::build(istream& in){
+    
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<cols; j++) {
+            in >> elements[i][j];
+            if(in == cin)
+                print(cout);
+        }
+    }
+    
 }
 
 
